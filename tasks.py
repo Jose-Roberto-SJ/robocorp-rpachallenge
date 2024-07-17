@@ -42,7 +42,7 @@ def extract_data_from_latimes():
             # 5. Store in an Excel file:
             save_data_on_excel(rows, search_phrase)
 
-            item.create_output(output_folder_path)
+            item.add_file(output_folder_path)
             item.done()
 
         except AssertionError as err:
