@@ -44,10 +44,10 @@ def extract_data_from_latimes():
             save_data_on_excel(rows, search_phrase)
                         
             # Create a zip file
-            shutil.make_archive(search_phrase, 'zip', output_folder_path)
+            zip_path = shutil.make_archive(search_phrase, 'zip', output_folder_path)
             
             # Upload file to control room
-            item.add_file(os.path.join(output_folder_path, search_phrase + '.zip'))
+            item.add_file(zip_path)
             item.save()
             item.done()
 
