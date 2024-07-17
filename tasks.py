@@ -13,6 +13,13 @@ import re
 import os
 
 browser = Selenium()
+# 1. Open the site by following the link
+browser.open_chrome_browser(
+    url="https://www.latimes.com/",
+    maximized=True, 
+    headless=False
+)
+browser.set_selenium_timeout = 20
 http = HTTP()
 output_folder_path = get_output_dir()
 
@@ -28,10 +35,9 @@ def extract_data_from_latimes():
             months_number = 0 if months_number <= 1 else (months_number - 1) * -1
             limit_dt = (dt.today() + relativedelta(months=months_number, day=1)).date()
 
-            # 1. Open the site by following the link
             # 2. Enter a phrase in the search field
             # 3. On the result page, section from the Choose the latest (newest) news
-            open_search_and_order(search_phrase)
+            search_and_order(search_phrase)
 
             # 3. On the result page, If possible, select a news category
             filter_topic(topic)
@@ -59,15 +65,9 @@ def extract_data_from_latimes():
         browser.close_browser()
 
 
-def open_search_and_order(search_phrase: str):
+def search_and_order(search_phrase: str):
 
-    browser.open_chrome_browser(
-        url=f"https://www.latimes.com/search?q={search_phrase}&s=1",
-        maximized=True,
-        headless=False,
-    )
-
-    browser.set_selenium_timeout = 20
+    browser.go_to(f"https://www.latimes.com/search?q={search_phrase}&s=0")
 
     # browser.wait_until_page_contains_element(f"//*[text()='Topics']")
     if browser.does_page_contain_element("//*[@class='search-results-module-no-results']"):
