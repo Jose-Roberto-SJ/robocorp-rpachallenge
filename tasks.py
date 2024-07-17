@@ -12,6 +12,7 @@ import re
 import os
 
 browser = Selenium()
+http = HTTP()
 output_folder_path = get_output_dir()
 
 
@@ -41,6 +42,7 @@ def extract_data_from_latimes():
             # 5. Store in an Excel file:
             save_data_on_excel(rows, search_phrase)
 
+            item.create_output(output_folder_path)
             item.done()
 
         except AssertionError as err:
@@ -107,7 +109,7 @@ def get_news(limit_dt: dt.date, search_phrase: str) -> list:
             picture_name = f"picture_{p}.{l}.png"
             picture_path = os.path.join(pictures_folder_path, picture_name)
             url = browser.get_element_attribute(xpath + "//*[@class='image']", "src")
-            HTTP().download(url=url, target_file=picture_path, overwrite=True)
+            http.download(url=url, target_file=picture_path, overwrite=True)
 
             # Count search phrases
             count_search_phrases = title.upper().count(search_phrase.upper())
