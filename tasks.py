@@ -27,7 +27,6 @@ def extract_data_from_latimes():
             months_number = item.payload["Months number"]
             months_number = 0 if months_number <= 1 else (months_number - 1) * -1
             limit_dt = (dt.today() + relativedelta(months=months_number, day=1)).date()
-            print(f"Search for: {search_phrase}, {topic}, {months_number}")
 
             # 1. Open the site by following the link
             # 2. Enter a phrase in the search field
@@ -44,7 +43,7 @@ def extract_data_from_latimes():
             save_data_on_excel(rows, search_phrase)
                         
             # Create a zip file
-            zip_path = shutil.make_archive(search_phrase, 'zip', output_folder_path)
+            zip_path = shutil.make_archive(search_phrase, 'zip', os.path.join(output_folder_path, search_phrase))
             
             # Upload file to control room
             item.add_file(zip_path)
