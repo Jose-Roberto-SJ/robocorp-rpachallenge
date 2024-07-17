@@ -82,7 +82,7 @@ def get_news(limit_dt: dt.date, search_phrase: str) -> list:
     os.makedirs(name=pictures_folder_path, exist_ok=True)
 
     pages_str = browser.get_text("//*[@class='search-results-module-page-counts']")
-    pages_nr = pages_str.split(" of ")[1].replace(",", "") + 1
+    pages_nr = int(pages_str.split(" of ")[1].replace(",", "")) + 1
     rows = []
     for p in range(pages_nr):
         for l in range(1, 11):
