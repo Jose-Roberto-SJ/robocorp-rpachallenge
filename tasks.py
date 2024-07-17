@@ -84,7 +84,7 @@ def get_news(limit_dt: dt.date, search_phrase: str) -> list:
     pages_str = browser.get_text("//*[@class='search-results-module-page-counts']")
     pages_nr = int(pages_str.split(" of ")[1].replace(",", "")) + 1
     rows = []
-    for p in range(pages_nr):
+    for p in range(1, pages_nr):
         for l in range(1, 11):
             # Date
             xpath = f"//*[@class='search-results-module-results-menu']/li[{l}]"
@@ -107,7 +107,7 @@ def get_news(limit_dt: dt.date, search_phrase: str) -> list:
             picture_name = f"picture_{p}.{l}.png"
             picture_path = os.path.join(pictures_folder_path, picture_name)
             url = browser.get_element_attribute(xpath + "//*[@class='image']", "src")
-            HTTP.download(url=url, target_file=picture_path, overwrite=True)
+            HTTP().download(url=url, target_file=picture_path, overwrite=True)
 
             # Count search phrases
             count_search_phrases = title.upper().count(search_phrase.upper())
@@ -163,24 +163,3 @@ def contains_monetary_value(description: str) -> bool:
     
     # True if monetary values found or False if not
     return match is not None
-    
-
-# def download_file(url: str, file_path: str):
-#     """
-#     Downloads a file from the given URL into a custom folder & name.
-
-#     Args:
-#         url: The target URL from which we'll download the file.
-#         target_dir: The destination directory in which we'll place the file.
-#         target_filename: The local file name inside which the content gets saved.
-
-#     Returns:
-#         Path: A Path object pointing to the downloaded file.
-#     """
-#     # Obtain the content of the file hosted online.
-#     response = requests.get(url)
-#     response.raise_for_status()  # this will raise an exception if the request fails
-#     # Write the content of the request response to the target file.
-#     with open(file_path, 'wb') as file:
-#         # Escrever o conteúdo da resposta no arquivo
-#         file.write(response.content)
