@@ -7,6 +7,7 @@ from robocorp import workitems
 
 from dateutil.relativedelta import relativedelta
 from datetime import datetime as dt
+import shutil
 import time
 import re
 import os
@@ -41,8 +42,13 @@ def extract_data_from_latimes():
 
             # 5. Store in an Excel file:
             save_data_on_excel(rows, search_phrase)
-
-            item.add_file(output_folder_path)
+                        
+            # Create a zip file
+            shutil.make_archive(search_phrase, 'zip', output_folder_path)
+            
+            # Upload file to control room
+            item.add_file(os.path.join(output_folder_path, search_phrase + '.zip'))
+            item.save()
             item.done()
 
         except AssertionError as err:
