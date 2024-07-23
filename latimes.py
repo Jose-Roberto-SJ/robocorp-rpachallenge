@@ -45,7 +45,7 @@ class LosAngelesTimes:
             self.browser.select_checkbox(f"//*[*[text()='Topics']]//*[*[contains(text(),'{topic}')]]/input")
             self.browser.click_element("//*[@class='button submit-button']")
             time.sleep(2)  # This is necessary for page to start loading
-        self.browser.wait_until_page_contains_element("//*[@class='search-results-module-page-counts']")
+        self.browser.wait_until_page_contains_element("//*[@class='search-results-module-page-counts']", timeout=20)
 
 
     def get_news(self, limit_dt: dt.date, search_phrase: str) -> list:
