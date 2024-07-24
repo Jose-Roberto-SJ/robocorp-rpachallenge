@@ -17,9 +17,14 @@ def save_news_on_file(rows: list, search_phrase: str) -> None:
     filename = search_phrase + ".xlsx"
     excel_path = os.path.join(excel_folder_path, filename)
 
-    excel = Files()
-    excel.create_workbook(path=excel_path)
-    excel.append_rows_to_worksheet(rows, header=True)
-    excel.save_workbook()
-    excel.close_workbook()
+    try:
+        excel = Files()
+        excel.create_workbook(path=excel_path)
+        excel.append_rows_to_worksheet(rows, header=True)
+        excel.save_workbook()
+        excel.close_workbook()
+    except:
+        error_msg = "Failed to save news into Excel file."
+        logger.error(message=error_msg)
+        raise Exception(error_msg)
     

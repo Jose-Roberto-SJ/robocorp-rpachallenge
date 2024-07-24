@@ -16,6 +16,8 @@ logger = Logger()
 
 @task
 def extract_data_from_latimes():
+        
+    logger.info("-=" * 15 + "Starting execution" + "-=" * 15)
 
     # 1. Open the site by following the link
     lat.open_browser()
@@ -55,9 +57,8 @@ def extract_data_from_latimes():
 
         except AssertionError as err:
             item.fail("BUSINESS", message=str(err))
-            logger.error()
         except Exception as err:
             item.fail("APPLICATION", message=str(err))
-            logger.error()
-        finally:
-            lat.close_browser()
+    
+    lat.close_browser()        
+    logger.info("-=" * 15 + "End of execution." + "-=" * 15)
